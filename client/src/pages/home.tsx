@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import { Heart, Code, Rocket, Star, Play, Pause, X, ArrowDown, Cpu, Laptop } from "lucide-react";
+import { Heart, Code, Rocket, Star, Play, Pause, X, ArrowDown, Cpu, Laptop, Gift, Cake } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 interface TimelineItem {
   id: number;
@@ -14,37 +14,23 @@ interface TimelineItem {
 const timelineItems: TimelineItem[] = [
   {
     id: 1,
-    emoji: "👋",
-    title: "First Hello",
-    description: "The moment our paths crossed and changed everything forever",
+    emoji: "👶",
+    title: "Childhood Dreams",
+    description: "Little hands already reaching for big dreams and endless possibilities",
     colors: "from-love-red to-love-accent"
   },
   {
     id: 2,
-    emoji: "💑",
-    title: "First Date",
-    description: "When debugging code turned into debugging our hearts",
-    colors: "from-love-pink to-tech-teal"
-  },
-  {
-    id: 3,
-    emoji: "☕",
-    title: "Late-night Talks",
-    description: "Coffee-fueled conversations about code, dreams, and us",
+    emoji: "🎓",
+    title: "Learning & Growing",
+    description: "Every challenge met with determination, every lesson absorbed with passion",
     colors: "from-tech-teal to-love-accent"
   },
   {
-    id: 4,
-    emoji: "💍",
-    title: "Engagement",
-    description: "When you committed to our forever repository",
-    colors: "from-love-red to-love-pink"
-  },
-  {
-    id: 5,
-    emoji: "💒🌍",
-    title: "Future Plans",
-    description: "Building our life together, one commit at a time",
+    id: 3,
+    emoji: "💻",
+    title: "Engineering Excellence",
+    description: "Building the future with code, one brilliant solution at a time",
     colors: "from-love-accent to-tech-teal"
   }
 ];
@@ -69,7 +55,7 @@ export default function Home() {
           if (entry.isIntersecting) {
             const elementId = entry.target.getAttribute('data-element-id');
             if (elementId) {
-              setVisibleElements(prev => new Set([...prev, elementId]));
+              setVisibleElements(prev => new Set(Array.from(prev).concat(elementId)));
             }
           }
         });
@@ -87,7 +73,7 @@ export default function Home() {
           if (entry.isIntersecting) {
             const step = parseInt(entry.target.getAttribute('data-step') || '0');
             setTimeout(() => {
-              setAnimatedTimeline(prev => new Set([...prev, step]));
+              setAnimatedTimeline(prev => new Set(Array.from(prev).concat(step)));
             }, step * 200);
           }
         });
@@ -109,7 +95,7 @@ export default function Home() {
 
     // Initial hero animation
     setTimeout(() => {
-      setVisibleElements(prev => new Set([...prev, 'hero']));
+      setVisibleElements(prev => new Set(Array.from(prev).concat('hero')));
     }, 500);
 
     return () => {
@@ -124,9 +110,11 @@ export default function Home() {
   };
 
   const toggleMusic = () => {
+    if (!isPlaying) {
+      // Open the YouTube video in a new tab
+      window.open('https://youtu.be/BDjWVXUbwNE?si=miyfyGCTK1C1d1X5', '_blank');
+    }
     setIsPlaying(!isPlaying);
-    // In a real implementation, you would control actual audio playback here
-    console.log(isPlaying ? 'Music paused...' : 'Playing romantic background music...');
   };
 
   const openModal = () => {
@@ -156,12 +144,16 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none z-0">
         <FloatingElement icon={Heart} className="text-love-red text-4xl" style={{ top: '10%', left: '10%' }} />
         <FloatingElement icon={Code} className="text-tech-teal text-3xl" style={{ top: '20%', right: '15%' }} />
+        <FloatingElement icon={Cake} className="text-love-accent text-4xl" style={{ top: '15%', left: '85%' }} />
         <FloatingElement icon={Heart} className="text-love-pink text-5xl" style={{ top: '60%', left: '5%' }} />
         <FloatingElement icon={Cpu} className="tech-icon text-love-accent text-4xl" style={{ top: '70%', right: '10%' }} />
+        <FloatingElement icon={Gift} className="text-love-red text-3xl" style={{ top: '25%', left: '75%' }} />
         <FloatingElement icon={Laptop} className="text-tech-teal text-3xl" style={{ top: '40%', left: '85%' }} />
         <FloatingElement icon={Heart} className="text-love-red text-3xl" style={{ top: '80%', left: '80%' }} />
+        <FloatingElement icon={Cake} className="text-love-pink text-3xl" style={{ top: '45%', left: '3%' }} />
         <FloatingElement icon={Cpu} className="text-love-accent text-2xl" style={{ top: '30%', left: '70%' }} />
         <FloatingElement icon={Heart} className="text-love-pink text-4xl" style={{ top: '90%', left: '30%' }} />
+        <FloatingElement icon={Gift} className="text-tech-teal text-2xl" style={{ top: '85%', right: '5%' }} />
       </div>
 
       {/* Hero Section */}
@@ -172,13 +164,13 @@ export default function Home() {
             data-element-id="hero"
           >
             <h1 className="font-romantic text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              To the <span className="gradient-text">Full-Stack Engineer</span><br />
-              of My Heart <span className="pulse-heart inline-block">💻❤️</span>
+              Happy Birthday to the <span className="gradient-text">Full-Stack Engineer</span><br />
+              of My Heart <span className="pulse-heart inline-block">💻🎂❤️</span>
             </h1>
             
             <div className="love-card rounded-3xl p-8 md:p-12 mb-12 mx-auto max-w-3xl">
               <p className="text-lg md:text-xl leading-relaxed text-gray-700 mb-6">
-                To my brilliant, passionate engineer who builds dreams with code and captures hearts with kindness...
+                Celebrating another year of my brilliant engineer who builds dreams with code and captures hearts with his caring spirit...
               </p>
               
               <div className="grid md:grid-cols-2 gap-6 text-left">
@@ -195,11 +187,11 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <Heart className="text-love-pink w-5 h-5" />
-                    <span className="text-gray-700">My forever teammate in life and love</span>
+                    <span className="text-gray-700">Strict but caring, with rules that show love</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Star className="text-love-accent w-5 h-5" />
-                    <span className="text-gray-700">Hardworking, consistent, and inspiring</span>
+                    <span className="text-gray-700">Behind every firm word is endless affection</span>
                   </div>
                 </div>
               </div>
@@ -209,8 +201,79 @@ export default function Home() {
               onClick={scrollToTimeline}
               className="bg-gradient-to-r from-love-red to-love-accent text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all duration-300 transform hover:scale-105 border-0"
             >
-              Our Love Story <ArrowDown className="ml-2 w-4 h-4" />
+              Your Journey <Gift className="ml-2 w-4 h-4" />
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Photo Gallery Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-love-pink/5 to-soft-white">
+        <div className="max-w-6xl mx-auto">
+          <div 
+            className={`text-center mb-16 fade-in ${visibleElements.has('gallery-header') ? 'visible' : ''}`}
+            data-element-id="gallery-header"
+          >
+            <h2 className="font-romantic text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+              From Little Dreams to <span className="gradient-text">Big Code</span>
+            </h2>
+            <p className="text-xl text-gray-600">A visual journey through the years</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Childhood Photo Placeholder */}
+            <div 
+              className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo1') ? 'visible' : ''}`}
+              data-element-id="photo1"
+            >
+              <div className="w-full h-64 bg-gradient-to-br from-love-pink/20 to-tech-teal/20 rounded-xl mb-4 flex items-center justify-center">
+                <div className="text-center">
+                  <Cake className="w-16 h-16 text-love-accent mx-auto mb-4" />
+                  <p className="text-gray-600 font-medium">Childhood Photo</p>
+                  <p className="text-sm text-gray-500">Add your favorite childhood memory</p>
+                </div>
+              </div>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">Little Dreamer</h3>
+              <p className="text-gray-600 text-sm mt-2">Where it all began</p>
+            </div>
+
+            {/* Teenage/School Photo Placeholder */}
+            <div 
+              className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo2') ? 'visible' : ''}`}
+              data-element-id="photo2"
+            >
+              <div className="w-full h-64 bg-gradient-to-br from-tech-teal/20 to-love-red/20 rounded-xl mb-4 flex items-center justify-center">
+                <div className="text-center">
+                  <Star className="w-16 h-16 text-tech-teal mx-auto mb-4" />
+                  <p className="text-gray-600 font-medium">Growing Up Photo</p>
+                  <p className="text-sm text-gray-500">School days or teenage years</p>
+                </div>
+              </div>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">Future Builder</h3>
+              <p className="text-gray-600 text-sm mt-2">Dreams taking shape</p>
+            </div>
+
+            {/* Recent/Current Photo Placeholder */}
+            <div 
+              className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo3') ? 'visible' : ''}`}
+              data-element-id="photo3"
+            >
+              <div className="w-full h-64 bg-gradient-to-br from-love-red/20 to-love-accent/20 rounded-xl mb-4 flex items-center justify-center">
+                <div className="text-center">
+                  <Code className="w-16 h-16 text-love-red mx-auto mb-4" />
+                  <p className="text-gray-600 font-medium">Recent Photo</p>
+                  <p className="text-sm text-gray-500">The brilliant engineer today</p>
+                </div>
+              </div>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">Code Master</h3>
+              <p className="text-gray-600 text-sm mt-2">Living the dream</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-gray-600 italic">
+              "Every photo tells a story, every story builds a legacy, every legacy shapes the future"
+            </p>
           </div>
         </div>
       </section>
@@ -223,9 +286,9 @@ export default function Home() {
             data-element-id="timeline-header"
           >
             <h2 className="font-romantic text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Our <span className="gradient-text">Love Algorithm</span>
+              Your Life <span className="gradient-text">Journey</span>
             </h2>
-            <p className="text-xl text-gray-600">A timeline of our beautiful journey together</p>
+            <p className="text-xl text-gray-600">Growing from childhood dreams to brilliant engineer</p>
           </div>
           
           <div className="space-y-12">
@@ -256,10 +319,10 @@ export default function Home() {
             data-element-id="surprise"
           >
             <h2 className="font-romantic text-3xl md:text-4xl font-bold text-gray-800 mb-8">
-              A Special Message
+              A Birthday Message
             </h2>
             <p className="text-lg text-gray-600 mb-12">
-              I wrote something just for you...
+              I wrote something special for your birthday...
             </p>
             
             <Button 
@@ -272,37 +335,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Love Message Modal */}
+      {/* Birthday Message Modal */}
       <Dialog open={modalOpen} onOpenChange={closeModal}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto love-card border-love-pink/30">
           <DialogHeader className="text-center">
-            <h3 className="font-romantic text-3xl font-bold gradient-text mb-4">My Dearest Love 💕</h3>
+            <DialogTitle className="font-romantic text-3xl font-bold gradient-text mb-4">Happy Birthday My Love 🎂💕</DialogTitle>
+            <DialogDescription className="sr-only">A special birthday message</DialogDescription>
           </DialogHeader>
           
           <div className="space-y-6 text-gray-700 leading-relaxed">
             <p className="text-lg">
-              Every line of code you write is like poetry to my heart. Your dedication, your passion, your brilliant mind - they all inspire me every single day.
+              Another year of your brilliant mind, your caring heart, and your incredible journey. Every line of code you write is like poetry to my soul, and every day with you is a gift.
             </p>
             
             <p>
-              When I watch you debug a complex problem or architect a beautiful solution, I see the same care and precision you bring to our relationship. You don't just build applications; you build dreams, futures, and a better world.
+              I know you can be strict with your rules - some might call them tough or demanding. But I see what others miss: behind every firm boundary is a heart that cares deeply. Your rules aren't harsh; they're your way of protecting and guiding those you love.
             </p>
             
             <p>
-              Your consistency amazes me - the way you commit to your craft is the same way you commit to us. Through late nights and early mornings, through challenging sprints and successful deployments, you remain my constant, my anchor, my home.
+              When you set high standards, it's because you believe in excellence. When you're tough on the outside, it's because you're nurturing something precious on the inside. Your strictness is just love wearing work clothes.
             </p>
             
             <p>
-              I love how your eyes light up when you solve a particularly tricky algorithm, the same way they light up when you see me walk into the room. You've taught me that love, like good code, is built on strong foundations, clear communication, and endless patience.
+              I've seen how your "stern" face melts into the softest smile when you think no one is watching. How your "rigid" rules bend the moment someone needs comfort. You're like the best kind of code - structured and reliable on the surface, but elegant and beautiful in its complexity.
             </p>
             
             <p className="font-medium text-love-red">
-              You are my favorite feature, my most treasured variable, and the perfect merge to my heart's repository. Here's to a lifetime of building beautiful things together - in code and in love.
+              So on your birthday, I celebrate not just the brilliant engineer you are, but the tender soul beneath that strong exterior. Your rules may seem tough, but your heart is pure gold. Here's to another year of your beautiful contradictions - strict but loving, tough but tender, my favorite debug partner in life.
             </p>
             
             <div className="text-center pt-6">
-              <p className="font-romantic text-xl text-love-red">Forever yours,</p>
-              <p className="font-romantic text-2xl font-semibold gradient-text mt-2">Your Loving Partner</p>
+              <p className="font-romantic text-xl text-love-red">With all my love on your special day,</p>
+              <p className="font-romantic text-2xl font-semibold gradient-text mt-2">Your Forever Admirer</p>
+              <div className="flex justify-center mt-4">
+                <Cake className="text-love-accent w-8 h-8 pulse-heart" />
+              </div>
             </div>
           </div>
         </DialogContent>
@@ -327,11 +394,11 @@ export default function Home() {
           </div>
           
           <h3 className="font-romantic text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
-            A Love <span className="gradient-text">Coded</span> Just for You
+            A Birthday Tribute <span className="gradient-text">Coded</span> Just for You
           </h3>
           
           <p className="text-gray-600 mb-6">
-            Built with love, HTML, CSS, JavaScript, and endless affection 💕
+            Built with love, React, TypeScript, and endless birthday wishes 🎂💕
           </p>
           
           <div className="flex justify-center space-x-6 text-2xl">

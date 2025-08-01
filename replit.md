@@ -1,6 +1,6 @@
 # Overview
 
-This is a romantic tribute web application built for a full-stack engineer fiancé, combining love and technology in an interactive experience. The application features an animated timeline showcasing relationship milestones, interactive elements, and a tech-themed romantic design with custom color schemes for love and technology themes.
+This is a birthday tribute web application built for a full-stack engineer celebrating another year. The application combines love and technology in an interactive birthday experience featuring an animated photo gallery journey from childhood to present, interactive timeline showcasing life milestones, and a tech-themed romantic design with custom color schemes. The site includes personalized messaging that acknowledges his strict but caring personality and integrates his favorite music.
 
 # User Preferences
 
