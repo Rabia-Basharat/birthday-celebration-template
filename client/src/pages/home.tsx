@@ -354,7 +354,7 @@ export default function Home() {
               >
                 <span className="relative z-10 flex items-center space-x-3">
                   <Gift className="w-6 h-6 animate-bounce" />
-                  <span className="text-white font-extrabold drop-shadow-lg">
+                  <span className="font-extrabold drop-shadow-lg" style={{ color: '#ffffff' }}>
                     Open Your Surprise!
                   </span>
                   <Cake className="w-6 h-6 animate-pulse" />
