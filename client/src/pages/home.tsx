@@ -2,6 +2,10 @@ import { useEffect, useState, useRef } from "react";
 import { Heart, Code, Rocket, Star, Play, Pause, X, ArrowDown, Cpu, Laptop, Gift, Cake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
+import ConfettiExplosion, { useConfetti } from "@/components/ConfettiExplosion";
+
+
 
 interface TimelineItem {
   id: number;
@@ -14,30 +18,30 @@ interface TimelineItem {
 const timelineItems: TimelineItem[] = [
   {
     id: 1,
-    emoji: "👶",
-    title: "Tiny Human, Big Dreams",
-    description: "When you were just a little coding prodigy in the making (probably debugging your toys already!)",
+    emoji: "🌟",
+    title: "Early Beginnings",
+    description: "✨ The journey of a thousand miles begins with a single step ✨",
     colors: "from-love-red to-love-accent"
   },
   {
     id: 2,
-    emoji: "🎓",
-    title: "The Learning Machine",
-    description: "Absorbing knowledge like a human sponge, probably the only kid excited about math class!",
+    emoji: "🚀",
+    title: "Dreams Take Flight",
+    description: "🚀 Reaching for the stars and beyond! 🚀",
     colors: "from-tech-teal to-love-accent"
   },
   {
     id: 3,
-    emoji: "💻",
-    title: "Code Wizard Status: ACHIEVED",
-    description: "Now you make computers do magic tricks while I'm still figuring out why my phone freezes 😅",
+    emoji: "⚡",
+    title: "Passion Ignites",
+    description: "⚡ Finding what makes your heart sing! ⚡",
     colors: "from-love-accent to-tech-teal"
   },
   {
     id: 4,
     emoji: "💍",
-    title: "Future Mr. & Mrs. Debug",
-    description: "Soon we'll be merging our lives like the perfect Git commit - no conflicts, just pure happiness!",
+    title: "Love & Growth",
+    description: "Building beautiful relationships and creating lasting memories together",
     colors: "from-love-pink to-love-red"
   }
 ];
@@ -53,6 +57,7 @@ export default function Home() {
   const [animatedTimeline, setAnimatedTimeline] = useState<Set<number>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
   const timelineObserverRef = useRef<IntersectionObserver | null>(null);
+  const { isActive: confettiActive, trigger: triggerConfetti } = useConfetti();
 
   useEffect(() => {
     // Intersection Observer for fade-in animations
@@ -118,8 +123,8 @@ export default function Home() {
 
   const toggleMusic = () => {
     if (!isPlaying) {
-      // Open the YouTube video in a new tab
-      window.open('https://youtu.be/BDjWVXUbwNE?si=miyfyGCTK1C1d1X5', '_blank');
+      // Open a generic music link
+      window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
     }
     setIsPlaying(!isPlaying);
   };
@@ -127,6 +132,7 @@ export default function Home() {
   const openModal = () => {
     setModalOpen(true);
     document.body.style.overflow = 'hidden';
+    triggerConfetti();
   };
 
   const closeModal = () => {
@@ -146,80 +152,119 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-modern bg-soft-white text-gray-800 overflow-x-hidden">
-      {/* Floating Background Elements */}
+    <div className="font-modern bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 text-gray-800 overflow-x-hidden">
+      {/* Simple Floating Background Elements */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <FloatingElement icon={Heart} className="text-love-red text-4xl" style={{ top: '10%', left: '10%' }} />
-        <FloatingElement icon={Code} className="text-tech-teal text-3xl" style={{ top: '20%', right: '15%' }} />
-        <FloatingElement icon={Cake} className="text-love-accent text-4xl" style={{ top: '15%', left: '85%' }} />
-        <FloatingElement icon={Heart} className="text-love-pink text-5xl" style={{ top: '60%', left: '5%' }} />
-        <FloatingElement icon={Cpu} className="tech-icon text-love-accent text-4xl" style={{ top: '70%', right: '10%' }} />
-        <FloatingElement icon={Gift} className="text-love-red text-3xl" style={{ top: '25%', left: '75%' }} />
-        <FloatingElement icon={Laptop} className="text-tech-teal text-3xl" style={{ top: '40%', left: '85%' }} />
-        <FloatingElement icon={Heart} className="text-love-red text-3xl" style={{ top: '80%', left: '80%' }} />
-        <FloatingElement icon={Cake} className="text-love-pink text-3xl" style={{ top: '45%', left: '3%' }} />
-        <FloatingElement icon={Cpu} className="text-love-accent text-2xl" style={{ top: '30%', left: '70%' }} />
-        <FloatingElement icon={Heart} className="text-love-pink text-4xl" style={{ top: '90%', left: '30%' }} />
-        <FloatingElement icon={Gift} className="text-tech-teal text-2xl" style={{ top: '85%', right: '5%' }} />
+        {/* Minimal floating elements */}
+        <FloatingElement icon={Heart} className="text-love-red text-4xl heart-float" style={{ top: '10%', left: '10%' }} />
+        <FloatingElement icon={Heart} className="text-love-pink text-3xl heart-float" style={{ top: '15%', right: '15%' }} />
+        <FloatingElement icon={Cake} className="text-love-accent text-4xl" style={{ top: '20%', left: '20%' }} />
+        <FloatingElement icon={Gift} className="text-love-red text-3xl" style={{ top: '25%', right: '25%' }} />
+        <FloatingElement icon={Star} className="text-yellow-400 text-3xl" style={{ top: '30%', left: '30%' }} />
       </div>
+      
+      {/* Confetti Explosion */}
+      <ConfettiExplosion isActive={confettiActive} />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="text-center max-w-4xl mx-auto z-10">
-          <div 
-            className={`fade-in ${visibleElements.has('hero') ? 'visible' : ''}`}
-            data-element-id="hero"
+        <div className="text-center max-w-4xl mx-auto z-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 100, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="space-y-8"
           >
-            <h1 className="font-romantic text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              Happy Birthday to My <span className="gradient-text">Coding Genius</span><br />
-              & Future Husband <span className="pulse-heart inline-block">💻🎂💍</span>
-            </h1>
+            <motion.h1 
+              className="font-romantic text-5xl md:text-7xl font-bold mb-8 leading-tight"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.3 }}
+            >
+              Happy Birthday to the{" "}
+              <motion.span 
+                className="gradient-text"
+                animate={{ 
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                Amazing Person
+              </motion.span>
+              <br />
+              in My Life{" "}
+              <motion.span 
+                className="pulse-heart inline-block"
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                💻🎂💍
+              </motion.span>
+            </motion.h1>
             
-            <div className="love-card rounded-3xl p-8 md:p-12 mb-12 mx-auto max-w-3xl">
+            <motion.div 
+              className="love-card rounded-3xl p-8 md:p-12 mb-12 mx-auto max-w-3xl"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.6 }}
+            >
               <p className="text-lg md:text-xl leading-relaxed text-gray-700 mb-6">
-                🎉 Another year of debugging life with my favorite human compiler! 🎉<br/>
-                <span className="text-base italic">Who knew I'd fall for someone who speaks in semicolons and thinks in algorithms?</span>
+                🎉 Welcome to Another year of amazing adventures! 🎉<br/>
+                <span className="text-base italic">Celebrating the wonderful person you are and all the joy you bring to the world!</span>
               </p>
               
               <div className="grid md:grid-cols-2 gap-6 text-left">
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <Code className="text-tech-teal w-5 h-5" />
-                    <span className="text-gray-700">Turns coffee into code like magic ☕➡️💻</span>
+                    <span className="text-gray-700">Turns ideas into reality like magic ✨➡️💻</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Rocket className="text-love-red w-5 h-5" />
-                    <span className="text-gray-700">Builds apps by day, steals hearts by night 🌙</span>
+                    <span className="text-gray-700">Builds dreams by day, spreads joy by night 🌙</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Heart className="text-love-pink w-5 h-5" />
-                    <span className="text-gray-700">Your bugs are cute, your hugs are perfect 🐛➡️🤗</span>
+                    <span className="text-gray-700">Your spirit is brilliant, your heart is pure 💻➡️💕</span>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <Star className="text-love-accent w-5 h-5" />
-                    <span className="text-gray-700">Strict coding standards, soft marshmallow heart</span>
+                    <span className="text-gray-700">High standards, beautiful soul</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Cpu className="text-tech-teal w-5 h-5" />
-                    <span className="text-gray-700">You're the only exception I never want to handle</span>
+                    <span className="text-gray-700">You're the exception that makes everything better</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Gift className="text-love-red w-5 h-5" />
-                    <span className="text-gray-700">Soon-to-be Mr. & Mrs. <span className="font-mono">{"{ us: \"forever\" }"}</span></span>
+                    <span className="text-gray-700">A gift to everyone who knows you <span className="font-mono">{"{ love: \"forever\" }"}</span></span>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
             
-            <Button 
-              onClick={scrollToTimeline}
-              className="bg-gradient-to-r from-love-red to-love-accent text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all duration-300 transform hover:scale-105 border-0"
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 0.9 }}
             >
-              Your Journey <Gift className="ml-2 w-4 h-4" />
-            </Button>
-          </div>
+              <Button 
+                onClick={scrollToTimeline}
+                className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white px-8 py-4 rounded-full text-lg font-bold hover:shadow-xl transition-all duration-300 transform hover:scale-110 border-0 shadow-lg"
+              >
+                Your Journey <Gift className="ml-2 w-4 h-4" />
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -231,61 +276,100 @@ export default function Home() {
             data-element-id="gallery-header"
           >
             <h2 className="font-romantic text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              From Little Dreams to <span className="gradient-text">Big Code</span>
+              From Little Dreams to <span className="gradient-text">Big Achievements</span>
             </h2>
             <p className="text-xl text-gray-600">A visual journey through the years</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Childhood Photo Placeholder */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-12">
+            {/* Childhood Photo */}
             <div 
               className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo1') ? 'visible' : ''} hover:transform hover:scale-105 transition-all duration-300`}
               data-element-id="photo1"
             >
-              <div className="w-full h-64 bg-gradient-to-br from-love-pink/20 to-tech-teal/20 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
-                <div className="text-center z-10">
-                  <div className="text-6xl mb-4">👶✨</div>
-                  <p className="text-gray-600 font-medium">Mini Genius Era</p>
-                  <p className="text-sm text-gray-500 italic">"Probably already asking 'but why?' about everything!"</p>
+              <div className="w-full h-64 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
+                <div className="text-center z-10 absolute inset-0 bg-gradient-to-br from-love-pink/20 to-tech-teal/20 rounded-xl flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">👶✨</div>
+                    <p className="text-gray-600 font-medium">Early Years</p>
+                    <p className="text-sm text-gray-500 italic">"The beginning of an amazing journey!"</p>
+                  </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-200/10 to-pink-200/10 animate-pulse"></div>
               </div>
-              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Cutest Troubleshooter</h3>
-              <p className="text-gray-600 text-sm mt-2">Back when your biggest bug was a missing toy 🧸</p>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Early Years</h3>
+              <p className="text-gray-600 text-sm mt-2">When dreams were just beginning to take shape 🧸</p>
             </div>
 
-            {/* Teenage/School Photo Placeholder */}
+            {/* Teenage/School Photo */}
             <div 
               className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo2') ? 'visible' : ''} hover:transform hover:scale-105 transition-all duration-300`}
               data-element-id="photo2"
             >
-              <div className="w-full h-64 bg-gradient-to-br from-tech-teal/20 to-love-red/20 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
-                <div className="text-center z-10">
-                  <div className="text-6xl mb-4">🎓🤓</div>
-                  <p className="text-gray-600 font-medium">Study Mode Activated</p>
-                  <p className="text-sm text-gray-500 italic">"When you actually enjoyed homework (weirdo! 😉)"</p>
+              <div className="w-full h-64 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
+                <div className="text-center z-10 absolute inset-0 bg-gradient-to-br from-tech-teal/20 to-love-red/20 rounded-xl flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🎓🤓</div>
+                    <p className="text-gray-600 font-medium">Learning & Growing</p>
+                    <p className="text-sm text-gray-500 italic">"Building the foundation for greatness!"</p>
+                  </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-200/10 to-green-200/10 animate-pulse"></div>
               </div>
-              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Knowledge Collector</h3>
-              <p className="text-gray-600 text-sm mt-2">Building the foundation for world domination 🌍</p>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Learning Years</h3>
+              <p className="text-gray-600 text-sm mt-2">Building the foundation for future success 🌍</p>
             </div>
 
-            {/* Recent/Current Photo Placeholder */}
+            {/* Thinking About Future Photo */}
             <div 
               className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo3') ? 'visible' : ''} hover:transform hover:scale-105 transition-all duration-300`}
               data-element-id="photo3"
             >
-              <div className="w-full h-64 bg-gradient-to-br from-love-red/20 to-love-accent/20 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
-                <div className="text-center z-10">
-                  <div className="text-6xl mb-4">💻👨‍💻</div>
-                  <p className="text-gray-600 font-medium">Final Form: Engineer God</p>
-                  <p className="text-sm text-gray-500 italic">"Now you make computers cry tears of joy!"</p>
+              <div className="w-full h-64 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
+                <div className="text-center z-10 absolute inset-0 bg-gradient-to-br from-love-red/20 to-love-accent/20 rounded-xl flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🤔💭</div>
+                    <p className="text-gray-600 font-medium">Dreaming Big</p>
+                    <p className="text-sm text-gray-500 italic">"Planning the future with passion!"</p>
+                  </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-200/10 to-red-200/10 animate-pulse"></div>
               </div>
-              <h3 className="font-romantic text-xl font-semibold text-gray-800">My Coding Hero</h3>
-              <p className="text-gray-600 text-sm mt-2">And soon-to-be husband! 💍✨</p>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Dreamer</h3>
+              <p className="text-gray-600 text-sm mt-2">Thinking about how to make the world better 🏠</p>
+            </div>
+
+            {/* Born as Engineer Photo */}
+            <div 
+              className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo4') ? 'visible' : ''} hover:transform hover:scale-105 transition-all duration-300`}
+              data-element-id="photo4"
+            >
+              <div className="w-full h-64 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
+                <div className="text-center z-10 absolute inset-0 bg-gradient-to-br from-tech-teal/20 to-love-red/20 rounded-xl flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">⚙️🔧</div>
+                    <p className="text-gray-600 font-medium">Finding Purpose</p>
+                    <p className="text-sm text-gray-500 italic">"Discovering your true calling!"</p>
+                  </div>
+                </div>
+              </div>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Creator</h3>
+              <p className="text-gray-600 text-sm mt-2">After deep thought, finding your true calling! 🎯</p>
+            </div>
+
+            {/* Recent/Current Photo */}
+            <div 
+              className={`love-card rounded-2xl p-6 text-center fade-in ${visibleElements.has('photo5') ? 'visible' : ''} hover:transform hover:scale-105 transition-all duration-300`}
+              data-element-id="photo5"
+            >
+              <div className="w-full h-64 rounded-xl mb-4 flex items-center justify-center relative overflow-hidden">
+                <div className="text-center z-10 absolute inset-0 bg-gradient-to-br from-love-red/20 to-love-accent/20 rounded-xl flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">💻👨‍💻</div>
+                    <p className="text-gray-600 font-medium">Living the Dream</p>
+                    <p className="text-sm text-gray-500 italic">"Making dreams come true!"</p>
+                  </div>
+                </div>
+              </div>
+              <h3 className="font-romantic text-xl font-semibold text-gray-800">The Achiever</h3>
+              <p className="text-gray-600 text-sm mt-2">Living your dreams and inspiring others! 💍✨</p>
             </div>
           </div>
 
@@ -293,24 +377,29 @@ export default function Home() {
             <p className="text-gray-600 italic text-lg mb-4">
               "Every photo tells a story, every story builds a legacy, every legacy shapes the future"
             </p>
-            <p className="text-sm text-gray-500">
-              📸 <em>Upload your actual photos here to make this even more special!</em> 📸
-            </p>
           </div>
         </div>
       </section>
 
       {/* Timeline Section */}
-      <section id="timeline" className="py-20 px-4 bg-gradient-to-b from-soft-white to-love-pink/10">
+      <section id="timeline" className="py-20 px-4 bg-gradient-to-b from-soft-white to-love-pink/10 relative overflow-hidden">
+        {/* Floating sparkles for timeline */}
+        <div className="absolute top-10 left-10 text-yellow-400 animate-ping">✨</div>
+        <div className="absolute top-20 right-20 text-pink-400 animate-ping delay-75">💖</div>
+        <div className="absolute top-40 left-20 text-purple-400 animate-ping delay-150">🌟</div>
+        <div className="absolute top-60 right-10 text-red-400 animate-ping delay-300">🎉</div>
+        <div className="absolute top-80 left-40 text-blue-400 animate-ping delay-500">💫</div>
+        <div className="absolute top-100 right-40 text-green-400 animate-ping delay-700">🎊</div>
+        
         <div className="max-w-4xl mx-auto">
           <div 
             className={`text-center mb-16 fade-in ${visibleElements.has('timeline-header') ? 'visible' : ''}`}
             data-element-id="timeline-header"
           >
             <h2 className="font-romantic text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              The <span className="gradient-text">Evolution</span> of My Favorite Human
+              The <span className="gradient-text">Journey</span> of an Amazing Person
             </h2>
-            <p className="text-xl text-gray-600">From cute kid to coding genius (and future hubby! 💕)</p>
+            <p className="text-xl text-gray-600">From dreams to reality, creating a beautiful life story 💕</p>
           </div>
           
           <div className="space-y-12">
@@ -320,12 +409,12 @@ export default function Home() {
                 className={`timeline-item flex items-center space-x-6 md:space-x-12 ${animatedTimeline.has(item.id) ? 'animate' : ''}`}
                 data-step={item.id}
               >
-                <div className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br ${item.colors} rounded-full flex items-center justify-center text-2xl text-white`}>
-                  {item.emoji}
+                <div className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br ${item.colors} rounded-full flex items-center justify-center text-2xl text-white pulse-heart shadow-lg transform hover:scale-110 transition-all duration-300`}>
+                  <span className="timeline-emoji">{item.emoji}</span>
                 </div>
-                <div className="love-card rounded-2xl p-6 flex-1">
-                  <h3 className="text-2xl font-romantic font-semibold text-gray-800 mb-2">{item.title}</h3>
-                  <p className="text-gray-600">{item.description}</p>
+                <div className="love-card rounded-2xl p-6 flex-1 hover:transform hover:scale-105 transition-all duration-300 shadow-lg">
+                  <h3 className="text-2xl font-romantic font-semibold text-gray-800 mb-2 gradient-text">{item.title}</h3>
+                  <p className="text-gray-600 text-lg font-medium">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -341,7 +430,7 @@ export default function Home() {
             data-element-id="surprise"
           >
             <h2 className="font-romantic text-3xl md:text-4xl font-bold text-gray-800 mb-8">
-              🎁 Secret Birthday Surprise Inside! 🎁
+              🎁 Special Birthday Surprise Inside! 🎁
             </h2>
             <p className="text-lg text-gray-600 mb-12">
               I've written something that might make you smile... or roll your eyes at my cheesiness 😅
@@ -376,35 +465,35 @@ export default function Home() {
       <Dialog open={modalOpen} onOpenChange={closeModal}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto love-card border-love-pink/30">
           <DialogHeader className="text-center">
-            <DialogTitle className="font-romantic text-3xl font-bold gradient-text mb-4">Happy Birthday My Love 🎂💕</DialogTitle>
+            <DialogTitle className="font-romantic text-3xl font-bold gradient-text mb-4">Happy Birthday! 🎂💕</DialogTitle>
             <DialogDescription className="sr-only">A special birthday message</DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-6 text-gray-700 leading-relaxed">
+          <div className="space-y-6 text-pink-600 leading-relaxed">
             <p className="text-lg font-semibold text-center gradient-text">
-              🎂 Happy Birthday to My Favorite Compiler! 🎂
+              🎂 Happy Birthday to an Amazing Person! 🎂
             </p>
             
             <p>
-              Another year of you being absolutely amazing, and another year of me wondering how I got so lucky! Every line of code you write is like magic to me (seriously, how do you make computers obey you like that?!).
+              Another year of you being absolutely incredible, and another year of the world being blessed by your presence! Every day you make the world a better place just by being you.
             </p>
             
             <p className="bg-gradient-to-r from-love-pink/10 to-tech-teal/10 p-4 rounded-lg border-l-4 border-love-red">
-              <strong>Fun Fact:</strong> You might be the only person I know who gets genuinely excited about clean code architecture. And honestly? It's adorable. 😍
+              <strong>Fun Fact:</strong> You might be the only person I know who gets genuinely excited about making a difference. And honestly? It's absolutely beautiful. 😍
             </p>
             
             <p>
-              I love your "strict engineer mode" - you know, when you get all serious about following best practices and maintaining coding standards. Some people call it demanding, but I call it <em>incredibly attractive</em>. There's something so sexy about a man who knows his semicolons from his brackets! 😏
+              I love your dedication to being a responsible and caring person - you know, when you get all serious about taking care of others and fulfilling your duties as a good human being. Some people call it demanding, but I call it <em>incredibly admirable</em>. There's something so beautiful about a person who knows how to balance personal growth with helping others! 😏
             </p>
             
             <p>
-              But what I love most is watching your "tough engineer" facade crumble the moment someone needs help or comfort. You're like a software update that seems intimidating at first, but then you realize it just makes everything better and more secure. 💕
+              But what I love most is watching your "tough" facade crumble the moment someone needs help or comfort. You're like a software update that seems intimidating at first, but then you realize it just makes everything better and more secure. 💕
             </p>
             
             <div className="bg-gray-50 p-6 rounded-xl">
               <p className="text-center text-lg font-medium text-gray-800 mb-4">
                 <Code className="inline w-5 h-5 mr-2" />
-                Birthday Wishes in Code:
+                Birthday wish in code style:
               </p>
               <div className="font-mono text-sm bg-gray-800 text-green-400 p-4 rounded-lg">
                 <div>{"if (today == yourBirthday) {"}</div>
@@ -417,13 +506,13 @@ export default function Home() {
             </div>
             
             <p className="font-medium text-love-red text-center text-lg">
-              Here's to another year of your beautiful contradictions - debugging problems by day, stealing hearts by night! 
+              Here's to another year of your beautiful contradictions - solving problems by day, spreading joy by night! 
               You're my favorite exception, and I never want to catch you! 💘
             </p>
             
             <div className="text-center pt-6">
-              <p className="font-romantic text-xl text-love-red">Forever your biggest fan & future wife,</p>
-              <p className="font-romantic text-2xl font-semibold gradient-text mt-2">Your Loving Fiancée 💍</p>
+              <p className="font-romantic text-xl text-love-red">Forever your biggest fan,</p>
+              <p className="font-romantic text-2xl font-semibold gradient-text mt-2">Your Forever Friend 💕</p>
               <div className="flex justify-center mt-4 space-x-2">
                 <Cake className="text-love-accent w-8 h-8 pulse-heart" />
                 <Heart className="text-love-red w-8 h-8 pulse-heart" />
@@ -438,27 +527,36 @@ export default function Home() {
       <footer className="bg-gradient-to-r from-love-red/10 to-tech-teal/10 py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-8">
+            <div className="text-center mb-4">
+              <h3 className="font-romantic text-xl font-semibold text-gray-800 mb-2">
+                🎵 A Song For You 🎵
+              </h3>
+              <p className="text-gray-600 text-sm italic">
+                A special melody for a special person... 💕
+              </p>
+            </div>
             <Button 
               onClick={toggleMusic}
               variant="outline"
-              className="bg-white/80 backdrop-blur-sm border-love-pink/30 text-gray-700 px-6 py-3 rounded-full hover:bg-love-pink/10 transition-all duration-300 flex items-center space-x-3 mx-auto"
+              className="bg-gradient-to-r from-love-pink/20 to-love-red/20 backdrop-blur-sm border-love-pink/50 text-gray-700 px-8 py-4 rounded-full hover:bg-love-pink/30 hover:scale-105 transition-all duration-300 flex items-center space-x-3 mx-auto shadow-lg hover:shadow-love-pink/25"
             >
               {isPlaying ? (
-                <Pause className="text-love-red w-4 h-4" />
+                <Pause className="text-love-red w-5 h-5" />
               ) : (
-                <Play className="text-love-red w-4 h-4" />
+                <Play className="text-love-red w-5 h-5" />
               )}
-              <span>{isPlaying ? 'Pause Music' : 'Play Our Song'}</span>
+              <span className="font-medium">{isPlaying ? 'Pause Song' : 'Play Special Song'}</span>
+              <Heart className="text-love-pink w-4 h-4 pulse-heart" />
             </Button>
           </div>
           
           <div className="mb-8">
             <h3 className="font-romantic text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
-              A Birthday Tribute <span className="gradient-text">Coded</span> with Love
+              A Small Birthday Wish <span className="gradient-text">From My Heart</span> Hope You Like It
             </h3>
             
             <p className="text-gray-600 mb-6">
-              Built with React, TypeScript, lots of coffee, and infinite love for my favorite human 🎂💕
+              Built with React, TypeScript, lots of coffee, and infinite love for an amazing person 🎂💕
             </p>
             
             <div className="love-card rounded-xl p-4 mb-6 max-w-md mx-auto">
