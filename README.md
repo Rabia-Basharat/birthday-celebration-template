@@ -4,7 +4,7 @@ A beautiful, responsive birthday celebration website built with React, TypeScrip
 
 ## 🌐 Live Demo
 
-**View the live website:** [https://birthday-celebration-template.surge.sh]
+**View the live website:** [https://birthday-celebration-website.surge.sh](https://birthday-celebration-website.surge.sh)
 
 **Experience the magic:** Beautiful animations, confetti explosions, and interactive elements that make every birthday special!
 
@@ -60,7 +60,7 @@ npm run dev
 
 ### Quick Preview
 
-Want to see it in action immediately? Visit the **[live demo](https://birthday-celebration-template.surge.sh)** to experience all the features!
+Want to see it in action immediately? Visit the **[live demo](https://birthday-celebration-website.surge.sh)** to experience all the features!
 
 ## Customization
 
@@ -112,7 +112,7 @@ This project can be deployed to various platforms:
 ### Current Deployment
 
 This project is currently deployed on **Surge**:
-- **Live URL**: [https://birthday-celebration-template.surge.sh](https://birthday-celebration-template.surge.sh)
+- **Live URL**: [https://birthday-celebration-website.surge.sh](https://birthday-celebration-website.surge.sh)
 - **Status**: ✅ Active and running
 
 ## Contributing
